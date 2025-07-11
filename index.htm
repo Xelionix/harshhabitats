@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Harsh Habitats</title>
+  <link rel="icon" href="favicon2.ico" type="image/x-icon" />
+  <!-- Caesar Dressing font -->
+  <link href="https://fonts.googleapis.com/css2?family=Caesar+Dressing&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --primary: #ffa94d;
+      --accent-dark: #121212;
+      --text-light: #e0e0e0;
+      --font-eng: 'Caesar Dressing', cursive, sans-serif;
+      --font-jp: 'MS Gothic', 'Arial Unicode MS', sans-serif;
+      --box-bg: rgba(30, 30, 30, 0.75);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: var(--font-eng);
+      background: url('stoneflip.png') no-repeat center center fixed;
+      background-size: cover;
+      color: var(--text-light);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      user-select: none;
+    }
+
+    body.jp {
+      font-family: var(--font-jp);
+    }
+
+    a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    a:hover,
+    button:hover {
+      text-decoration: underline;
+      filter: brightness(1.1);
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      padding: 12px 40px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.75);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .header-left img {
+      height: 40px;
+      cursor: pointer;
+    }
+
+    .header-center img {
+      height: 50px;
+    }
+
+    nav {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    nav a {
+      color: var(--text-light);
+      position: relative;
+      white-space: nowrap;
+      transition: color 0.3s ease;
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 3px;
+      bottom: -5px;
+      left: 0;
+      background: var(--primary);
+      transition: width 0.3s;
+      border-radius: 2px;
+    }
+
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    .lang-toggle {
+      background: none;
+      color: var(--primary);
+      border: 2px solid var(--primary);
+      padding: 6px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 0.9rem;
+      user-select: none;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .lang-toggle:hover {
+      background: var(--primary);
+      color: #000;
+      text-decoration: none;
+    }
+
+    main {
+      margin: 100px auto 40px;
+      max-width: 1000px;
+      padding: 20px;
+      flex-grow: 1;
+      background: var(--box-bg);
+      border-radius: 12px;
+      box-shadow: 0 0 18px rgba(255, 169, 77, 0.6);
+    }
+
+    section {
+      margin-bottom: 50px;
+      animation: fadeInUp 1s ease forwards;
+      opacity: 0;
+      user-select: text;
+    }
+
+    section h2 {
+      color: var(--primary);
+      font-size: 2.4rem;
+      margin-bottom: 20px;
+      user-select: none;
+    }
+
+    section.hero {
+      text-align: center;
+      margin-bottom: 60px;
+      animation: fadeInUp 1s ease forwards;
+      opacity: 0;
+    }
+
+    section.hero img.harshlogo {
+      width: 320px;
+      max-width: 90vw;
+      margin-bottom: 15px;
+      animation: fadeIn 1.5s ease forwards;
+      opacity: 0;
+    }
+
+    section.hero h1 {
+      font-size: 3.5rem;
+      margin: 0 0 10px;
+      font-weight: 900;
+      letter-spacing: 3px;
+      color: var(--primary);
+    }
+
+    section.hero p {
+      font-style: italic;
+      font-size: 1.25rem;
+      margin: 0 0 30px;
+      color: var(--text-light);
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #121212;
+      padding: 18px 44px;
+      font-weight: 700;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1.15rem;
+      letter-spacing: 1.5px;
+      transition: transform 0.2s, filter 0.3s;
+      animation: fadeInUp 1.4s ease forwards;
+      opacity: 0;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      filter: brightness(1.15);
+    }
+
+    .store-links {
+      display: flex;
+      gap: 30px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .store-button {
+      background: rgba(255, 169, 77, 0.15);
+      color: var(--primary);
+      border: 2px solid var(--primary);
+      border-radius: 8px;
+      padding: 14px 32px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: background 0.3s, color 0.3s;
+      animation: fadeInUp 1.9s ease forwards;
+    }
+
+    .store-button:hover {
+      background: var(--primary);
+      color: #121212;
+    }
+
+    .gallery-images {
+      display: flex;
+      gap: 25px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .gallery-images img {
+      max-width: 320px;
+      width: 100%;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(255, 169, 77, 0.5);
+      transition: transform 0.3s ease;
+      animation: fadeInUp 2.2s ease forwards;
+    }
+
+    .gallery-images img:hover {
+      transform: scale(1.05);
+    }
+
+    .info-section p,
+    .info-section ul {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      margin-top: 10px;
+      color: var(--text-light);
+    }
+
+    .info-section ul {
+      padding-left: 20px;
+    }
+
+    footer {
+      background: rgba(10, 10, 10, 0.95);
+      color: #ccc;
+      text-align: center;
+      padding: 25px 20px;
+      font-size: 0.9em;
+      box-shadow: 0 -3px 10px rgba(255, 169, 77, 0.3);
+    }
+
+    @keyframes fadeInUp {
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+      }
+
+      100% {
+        opacity: 1;
+      }
+    }
+
+.character-list {
+  list-style: none;
+  padding: 0;
+}
+
+.character-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.character-list img {
+  width: 100px;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(255, 169, 77, 0.3);
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+
+  </style>
+</head>
+
+<body>
+   <header>
+    <div class="header-left">
+      <img src="logo.png" alt="Company Icon Logo" title="Go to Home" onclick="location.href='#hero'" />
+    </div>
+    <div class="header-center">
+      <img src="logo2.png" alt="Company Text Logo" />
+    </div>
+    <nav>
+      <a href="#hero" data-key="nav-home">Home</a>
+      <a href="#about" data-key="nav-about">About the Game</a>
+      <a href="#platforms" data-key="nav-platforms">Platforms</a>
+      <a href="#requirements" data-key="nav-req">Requirements</a>
+      <a href="#studio" data-key="nav-studio">Studio Info</a>
+      <a href="#updates" data-key="nav-updates">Updates</a>
+      <a href="#stores" data-key="nav-stores">Stores</a>
+      <a href="#gallery" data-key="nav-gallery">Gallery</a>
+      <button id="lang-btn" class="lang-toggle" aria-label="Toggle Language" onclick="toggleLanguage()">日本語</button>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" id="hero" role="banner" aria-label="Harsh Habitats Game Introduction">
+      <img src="harshlogo.png" alt="Harsh Habitats Logo" class="harshlogo" />
+      <h1 data-key="hero-title">Harsh Habitats</h1>
+      <p data-key="hero-description">
+       <b>Build, Battle, Barter, and Thrive</b> throughout the vast world of <i>Harsh Habitats</i>
+      </p>
+      <button class="btn-primary" onclick="document.getElementById('stores').scrollIntoView({behavior:'smooth'})"
+        data-key="btn-buy">Coming Soon!</button>
+    </section>
+
+    <section id="about" class="info-section" aria-label="About the Game">
+      <h2 data-key="about-title">About the Game</h2>
+      <p data-key="about-desc">
+Harsh Habitats is an interactive multi-player and single-player experience, where one is placed on land and forges a civilization. Lead the next war pact, build an economic powerhouse, develop agriculture giant, or thrive as a peaceful band of gem miners. Experiment with modes like Pirates and Duels and challenge your friends! Be ready to defend your village—or invade others’—and <b>Build, Battle, Barter, and Thrive</b> throughout the vast world of <i>Harsh Habitats</i>!
+      </p>
+    </section>
+
+   <section id="platforms" class="info-section" aria-label="Supported Platforms">
+  <h2 data-key="platforms-title">Platforms</h2>
+  <ul data-key="platforms-list">
+    <li>Windows 7 (KB2670838) to Windows 11</li>
+    <li>Linux</li>
+    <li>Xbox One / Xbox Series X|S (planned)</li>
+    <li>Nintendo Switch / Switch 2 (planned)</li>
+  </ul>
+</section>
+
+<section id="requirements" class="info-section" aria-label="System Requirements">
+  <h2 data-key="requirements-title">System Requirements</h2>
+  <ul>
+    <li data-key="requirements-min">
+      <strong>Minimum:</strong> Intel Core i3 or equivalent, 8GB RAM, NVIDIA GTX 660 / AMD Radeon HD 7850, DirectX 11 compatible, 30 FPS minimum with low scalability settings.
+    </li>
+    <li data-key="requirements-rec">
+      <strong>Recommended:</strong> Intel Core i7 or equivalent, 16GB RAM, NVIDIA GTX 1070 / AMD Radeon RX 580, SSD storage, 60 FPS gameplay.
+    </li>
+  </ul>
+</section>
+
+    <section id="studio" class="info-section" aria-label="Studio Information">
+      <h2 data-key="studio-title">Studio Info</h2>
+      <li data-key="studio-desc">
+	Harsh Habitats is developed by Xelionix L.L.C., an American indie game studio committed to creating unique titles and providing users with an unforgettable gaming 	experience.
+      </li>
+    </section>
+
+    <section id="updates" class="info-section" aria-label="Latest Updates">
+      <h2 data-key="updates-title">Updates</h2>
+      <ul>
+       <li data-key="updates-0"><strong>Harsh Habitats Beta v0.1.0</strong> — Added the first base features of Harsh Habitats, such as movement, playable characters, and basic combat.</li>
+      </ul>
+    </section>
+
+    <section id="stores" aria-label="Stores where Harsh Habitats is available">
+      <h2 data-key="stores-title">Available on</h2>
+      <div class="store-links">
+	<a href="#" class="store-button" target="_blank" rel="noopener" data-key="store-steam">Steam</a>
+	<a href="#" class="store-button" target="_blank" rel="noopener" data-key="store-epic">Epic Games Store</a>
+	<a href="#" class="store-button" target="_blank" rel="noopener" data-key="store-xbox">Xbox Store</a>
+	<a href="#" class="store-button" target="_blank" rel="noopener" data-key="store-nintendo">Nintendo eShop</a>
+      </div>
+    </section>
+
+    <section id="gallery" aria-label="Game Artwork Gallery">
+      <h2 data-key="gallery-title">Gallery</h2>
+      <div class="gallery-images">
+        <img src="peeps.png" alt="Harsh Habitats Render 1" />
+        <img src="peeps2.png" alt="Harsh Habitats Render 2" />
+        <img src="HHRender.png" alt="Harsh Habitats Render 3" />
+        <img src="fredmountains.png" alt="Harsh Habitats Render 4" />
+      </div>
+    </section>
+
+<section id="Characters" class="info-section" aria-label="Characters">
+  <h2 data-key="characters-title">Characters</h2>
+  <ul>
+  <ul class="character-list">
+    <li data-key="characters-desc">
+      <img src="fred.png" alt="Fred" class="character-img" style="width:100px; height:auto; margin-right:10px; float:left;">
+      <p><strong>Fred</strong> – A playable caveman. The main character of Harsh Habitats; intelligent and aggressive.</p>
+    </li>
+    <li data-key="characters-desc2">
+      <img src="fiona.png" alt="Fiona" class="character-img" style="width:100px; height:auto; margin-right:10px; float:left;">
+      <p><strong>Fiona</strong> – A playable cavewoman. Part of Harsh Habitats' main crew; known for being intelligent and understanding.</p>
+    </li>
+    <li data-key="characters-desc3">
+      <img src="franco.png" alt="Franco" class="character-img" style="width:100px; height:auto; margin-right:10px; float:left;">
+      <p><strong>Franco</strong> – An enemy caveman. Part of Harsh Habitats' main crew; known for being fast, powerful, and short-tempered.</p>
+    </li>
+    <li data-key="characters-desc4">
+      <img src="franca.png" alt="Franca" class="character-img" style="width:100px; height:auto; margin-right:10px; float:left;">
+      <p><strong>Franca</strong> – An enemy cavewoman. Part of Harsh Habitats' main crew; known for being erratic, accurate, and logical.</p>
+    </li>
+  </ul>
+</section>
+
+
+  </ul>
+</section>
+
+
+  <footer>
+    <p>&copy; 2025 Xelionix L.L.C.</p>
+  </footer>
+
+  <!-- Translations + working script -->
+  <script>
+    const translations = {
+      ja: {
+        "nav-home": "ホーム",
+        "nav-about": "ゲームについて",
+        "nav-platforms": "プラットフォーム",
+        "nav-req": "要件",
+        "nav-studio": "スタジオ情報",
+        "nav-updates": "アップデート",
+        "nav-stores": "購入先",
+        "nav-gallery": "ギャラリー",
+        "hero-title": "ハーシュ・ハビタッツ",
+        "hero-description": "過酷な環境での建築、戦略、戦闘、生存。すべての選択が未来を決める。",
+        "btn-buy": "購入する",
+        "about-title": "ゲームについて",
+        "about-desc": "<b>ハーシュ・ハビタッツ</b> は、マルチプレイヤーでもシングルプレイヤーでも楽しめるインタラクティブな体験です。広大な土地に降り立ち、自分だけの文明を築き上げましょう。次の戦争連合を率いるもよし、経済大国を築くもよし、農業の巨人として発展するもよし、あるいは平和な宝石採掘団として繁栄するもよし。パイレーツやデュエルなどのモードで遊び、友達に挑戦しましょう！自分の村を守る準備をするか、他の村を侵略するか、広大な<b>ハーシュ・ハビタッツ</b> の世界で<b>「築く」「戦う」「取引する」「栄える」</b>を体感してください！",
+        "platforms-list": `
+          <li>Windows 7 (KB2670838) 〜 Windows 11</li>
+          <li>Linux</li>
+          <li>Xbox One / Xbox Series X|S（予定）</li>
+          <li>任天堂スイッチ / スイッチ2（予定）</li>
+        `,
+        "requirements-min": "<strong>最低:</strong> インテル Core i3相当以上、8GB RAM、NVIDIA GTX 660 / AMD Radeon HD 7850、DirectX 11 対応、低スケーラビリティ設定で最低 30 FPS を保証。",
+        "requirements-rec": "<strong>推奨:</strong> Iインテル Core i7相当以上、16GB RAM、NVIDIA GTX 1070 / AMD Radeon RX 580、SSDストレージ、快適な60 FPS。",
+        "studio-desc": "ハーシュ・ハビタッツ は、アメリカのインディーゲームスタジオ、Xelionix L.L.C. が開発しており、独自のタイトルを生み出し、ユーザーに忘れられないゲーム体験を提供することに力を注いでいます。",
+	"platforms-title": "プラットフォーム",
+	"requirements-title": "システム要件",
+	"studio-title": "スタジオ情報",
+	"updates-title": "アップデート",
+	"stores-title": "ストアー",
+	"gallery-title": "ギャラリー",
+	"btn-buy": "もうすぐ公開",
+	"stores-title": "購入先",
+	"store-steam": "スチーム",
+	"store-epic": "Epic Gamesストア",
+	"store-nintendo": "ニンテンドーeショップ",
+	"store-xbox": "Xboxストア",
+
+	"studio-desc": "<strong>『ハーシュ・ハビタッツ』</strong> は、没入感のある戦略・サバイバルゲームに特化したインディースタジオ「Xelionix L.L.C.」によって開発されました。2024年に設立され、プレイヤーの選択と環境ストーリーテリングの限界を押し広げることを目指しています。",
+
+	"characters-title": "キャラクタ",
+
+	"characters-desc": `<img src="fred.png" alt="フレッド" class="character-img" style="width:100px; height:auto; margin-right:10px; float:left;">
+	<strong><span class="nowrap">フレッド</span></strong> – プレイ可能な原始人。『ハーシュ・ハビタッツ』の主人公で、知的かつ攻撃的な性格。`,
+
+	"characters-desc2": `<img src="fiona.png" alt="フィオナ" class="character-img" style="width:100px; height:auto; margin-right:10px; float:left;">
+	<strong><span class="nowrap">フィオナ</span></strong> – プレイ可能な原始女性。『ハーシュ・ハビタッツ』のメインクルーの一員で、知的で理解力に優れることで知られる。`,
+
+	"characters-desc3": `<img src="franco.png" alt="フランコ" class="character-img" style="width:100px; height:auto; margin-right:10px; float:left;">
+	<strong><span class="nowrap">フランコ</span></strong> – 敵キャラの原始人。『ハーシュ・ハビタッツ』のメインクルーの一員で、素早く、力強く、短気な性格で知られる。`,
+
+	"characters-desc4": `<img src="franca.png" alt="フランカ" class="character-img" style="width:100px; height:auto; margin-right:10px; float:left;">
+	<strong><span class="nowrap">フランカ</span></strong> – 敵キャラの原始女性。『ハーシュ・ハビタッツ』のメインクルーの一員で、突発的ながら正確で論理的な性格。`,
+
+
+
+	"updates-0": "<strong>ハーシュ・ハビタッツ ベータ v0.1.0</strong> — 移動、操作可能なキャラクター、基本的な戦闘など、ハーシュ・ハビタッツの基本機能を初めて追加しました。"
+      }
+    };
+
+    let currentLang = "en";
+
+    function toggleLanguage() {
+      const btn = document.getElementById("lang-btn");
+      if (currentLang === "en") {
+        currentLang = "ja";
+        document.body.classList.add("jp");
+        btn.textContent = "English";
+        document.querySelectorAll("[data-key]").forEach((el) => {
+          const key = el.getAttribute("data-key");
+          if (!el.dataset.original) el.dataset.original = el.innerHTML;
+          el.innerHTML = translations.ja[key] || el.dataset.original;
+        });
+      } else {
+        currentLang = "en";
+        document.body.classList.remove("jp");
+        btn.textContent = "日本語";
+        document.querySelectorAll("[data-key]").forEach((el) => {
+          el.innerHTML = el.dataset.original || el.innerHTML;
+        });
+      }
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      document.querySelectorAll("[data-key]").forEach((el) => {
+        if (!el.dataset.original) el.dataset.original = el.innerHTML;
+      });
+    });
+  </script>
+</body>
+
+</html>
+
